@@ -1,5 +1,7 @@
 package com.example.junit1;
 
+import com.example.junit1.domain.Study;
+import com.example.junit1.study.StudyStatus;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Tag;
@@ -20,12 +22,12 @@ public class JUnitAssertionTest {
         assertNotNull(study);
         // 3번쨰 인자가 Executable 이나 문자열이냐는 조건에 맞을때 문자열 연산(concat)을 하냐 무조건 하냐의 차이
         assertEquals(StudyStatus.DRAFT, study.getStatus(), () -> "Initial State should be " + StudyStatus.DRAFT);
-        assertFalse(study.getLimit() > 0, "스터디 최대 참석 가능 인원은 0 이상이어야 합니다\n 현재인원: " + study.getLimit() + "\n");
+        assertFalse(study.getMaxNumber() > 0, "스터디 최대 참석 가능 인원은 0 이상이어야 합니다\n 현재인원: " + study.getMaxNumber() + "\n");
 
         assertAll(
                 () -> assertNotNull(study),
                 () -> assertEquals(StudyStatus.DRAFT, study.getStatus(), () -> "Initial State should be " + StudyStatus.DRAFT),
-                () -> assertFalse(study.getLimit() > 0, "스터디 최대 참석 가능 인원은 0 이상이어야 합니다\n 현재인원: " + study.getLimit() + "\n")
+                () -> assertFalse(study.getMaxNumber() > 0, "스터디 최대 참석 가능 인원은 0 이상이어야 합니다\n 현재인원: " + study.getMaxNumber() + "\n")
         );
 
         assertTimeout(Duration.ofMillis(100), () -> {
@@ -44,12 +46,12 @@ public class JUnitAssertionTest {
         String env = System.getenv("LOCAL");
         assumingThat("test".equalsIgnoreCase(env), () -> {
             Study actual = new Study(10);
-            assertTrue(actual.getLimit() < 0);  // 실행 안됨 LOCAL=test2 이기 때문
+            assertTrue(actual.getMaxNumber() < 0);  // 실행 안됨 LOCAL=test2 이기 때문
         });
 
         assumingThat("test2".equalsIgnoreCase(env), () -> {
             Study actual = new Study(10);
-            assertTrue(actual.getLimit() > 0);
+            assertTrue(actual.getMaxNumber() > 0);
         });
     }
 
@@ -62,7 +64,7 @@ public class JUnitAssertionTest {
 
         assumingThat("test2".equalsIgnoreCase(env), () -> {
             Study actual = new Study(10);
-            assertTrue(actual.getLimit() > 0);
+            assertTrue(actual.getMaxNumber() > 0);
         });
     }
 
@@ -70,42 +72,42 @@ public class JUnitAssertionTest {
     @EnabledOnOs({OS.WINDOWS, OS.MAC})
     void OS_conditional_branch_test_windows() {
         Study actual = new Study(100);
-        assertTrue(actual.getLimit() > 0);
+        assertTrue(actual.getMaxNumber() > 0);
     }
 
     @Test
     @EnabledOnOs(OS.LINUX)
     void OS_conditional_branch_test_LINUX() {   //skipped
         Study actual = new Study(100);
-        assertTrue(actual.getLimit() < 0);  // 실행 안됨
+        assertTrue(actual.getMaxNumber() < 0);  // 실행 안됨
     }
 
     @Test
     @EnabledOnJre({JRE.JAVA_8})
     void OS_conditional_branch_test_java8() {
         Study actual = new Study(100);
-        assertTrue(actual.getLimit() > 0);
+        assertTrue(actual.getMaxNumber() > 0);
     }
 
     @Test
     @Tag("fast")
     void tag_conditional_branch_test() {
         Study actual = new Study(100);
-        assertTrue(actual.getLimit() > 0);  // 실행 안됨
+        assertTrue(actual.getMaxNumber() > 0);  // 실행 안됨
     }
 
     @Test
     @Tag("slow")
     void tag_conditional_branch_test2() {
         Study actual = new Study(100);
-        assertTrue(actual.getLimit() > 0);
+        assertTrue(actual.getMaxNumber() > 0);
     }
 
     @Test
     @Tag("haha")
     void tag_conditional_branch_test3() {
         Study actual = new Study(100);
-        assertTrue(actual.getLimit() > 0);
+        assertTrue(actual.getMaxNumber() > 0);
     }
 
 }

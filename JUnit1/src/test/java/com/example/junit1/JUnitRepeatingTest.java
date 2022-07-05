@@ -1,5 +1,6 @@
 package com.example.junit1;
 
+import com.example.junit1.domain.Study;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,10 +14,8 @@ import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Convert;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class JUnitRepeatingTest {
@@ -40,7 +39,7 @@ public class JUnitRepeatingTest {
     @ParameterizedTest(name = "[{index}] {displayName} message={0}")
     @ValueSource(ints = {10, 20, 30})
     void converter_parameterizedTest(@ConvertWith(StudyConverter.class) Study study) {
-        System.out.println(study.getLimit());
+        System.out.println(study.getMaxNumber());
     }
 
     @ParameterizedTest(name = "[{index}] {displayName} message={0}")
